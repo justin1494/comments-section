@@ -121,6 +121,7 @@ function App() {
 
 const StyledApp = styled.div`
 	/* margin-top: 2rem; */
+	line-height: 1.5rem;
 
 	.wrapper {
 		width: 700px;

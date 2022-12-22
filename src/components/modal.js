@@ -33,7 +33,7 @@ function Modal({setIsModalOpen, commentId, removeHandler }) {
 }
 
 const StyledModal = styled.div`
-	position: absolute;
+	position: fixed;
 	width: 100vw;
 	height: 100vh;
 	display: flex;
