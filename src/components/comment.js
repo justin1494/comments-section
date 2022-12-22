@@ -8,8 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 // fontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faReply, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Modal from "./modal";
 
-function Comment({ comment, data, currentUser }) {
+function Comment({ comment, data, currentUser, confirmation, setIsModalOpen }) {
 	const increaseSign = useRef(null);
 	const decreaseSign = useRef(null);
 	const docRef = doc(db, "data", "users");
@@ -61,13 +62,13 @@ function Comment({ comment, data, currentUser }) {
 
 	const removeHandler = (id) => {
 		data.comments.forEach((comment) => {
-			if (comment.id.toString() === id) {
+			if (comment.id.toString() === id && confirmation) {
 				data.comments = data.comments.filter(
 					(comment) => comment.id !== id
 				);
 			}
 			comment.replies.forEach((reply) => {
-				if (reply.id === id) {
+				if (reply.id === id && confirmation) {
 					comment.replies = comment.replies.filter(
 						(reply) => reply.id !== id
 					);
@@ -158,7 +159,7 @@ function Comment({ comment, data, currentUser }) {
 							<div className="username">
 								{comment.user.username}
 								{comment.user.username ===
-								data.currentUser.username && (
+									data.currentUser.username && (
 									<span className="you-tag">you</span>
 								)}
 							</div>
@@ -171,9 +172,10 @@ function Comment({ comment, data, currentUser }) {
 									<button
 										className="delete"
 										data-id={comment.id}
-										onClick={() =>
-											removeHandler(comment.id)
-										}>
+										onClick={() => {
+											setIsModalOpen(true);
+											removeHandler(comment.id);
+										}}>
 										<FontAwesomeIcon
 											icon={faTrash}
 											className="icon"

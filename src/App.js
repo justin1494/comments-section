@@ -6,11 +6,14 @@ import { db } from "./firebase";
 import Comment from "./components/comment";
 import Reply from "./components/reply";
 import Input from "./components/input";
+import Modal from "./components/modal";
 import { v4 as uuidv4 } from "uuid";
 
 function App() {
 	const [data, setData] = useState();
 	const [commentText, setCommentText] = useState("");
+	const [confirmation, setConfirmation] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const doFetch = async () => {
 		onSnapshot(doc(db, "data", "users"), (doc) => {
@@ -42,10 +45,15 @@ function App() {
 		updateDoc(docRef, data);
 	};
 
-	
-
 	return (
 		<StyledApp>
+			{isModalOpen && (
+				<Modal
+					conformation={confirmation}
+					setConfirmation={setConfirmation}
+					setIsModalOpen={setIsModalOpen}
+				/>
+			)}
 			{data === undefined ? (
 				<p>Loading..</p>
 			) : (
@@ -58,6 +66,8 @@ function App() {
 								currentUser={currentUser}
 								commentText={commentText}
 								setCommentText={setCommentText}
+								conformation={confirmation}
+								setIsModalOpen={setIsModalOpen}
 								key={uuidv4()}
 							/>
 							{comment.replies.map((reply) => (
@@ -65,6 +75,8 @@ function App() {
 									reply={reply}
 									data={data}
 									currentUser={currentUser}
+									conformation={confirmation}
+									setIsModalOpen={setIsModalOpen}
 									key={uuidv4()}
 								/>
 							))}
@@ -91,7 +103,7 @@ function App() {
 }
 
 const StyledApp = styled.div`
-	margin-top: 2rem;
+	/* margin-top: 2rem; */
 
 	.wrapper {
 		width: 700px;
