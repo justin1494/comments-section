@@ -2,12 +2,12 @@ import React from "react";
 import Comment from "./comment";
 import styled from "styled-components";
 
-function Reply({ reply, reference, data, currentUser, removeHandler, setIsModalOpen, setCommentId }) {
+function Reply({ reply, data, currentUser, setIsModalOpen, setCommentId }) {
 	return (
 		<StyledReply>
 			<div className="reply-section">
 				<div className="line"></div>
-				<Comment comment={reply} reference={reference} data={data} currentUser={currentUser} removeHandler={removeHandler} setIsModalOpen={setIsModalOpen} setCommentId={setCommentId}/>
+				<Comment comment={reply} data={data} currentUser={currentUser} setIsModalOpen={setIsModalOpen} setCommentId={setCommentId}/>
 			</div>
 		</StyledReply>
 	);
