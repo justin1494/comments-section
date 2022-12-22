@@ -8,9 +8,14 @@ import { v4 as uuidv4 } from "uuid";
 // fontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faReply, faTrash } from "@fortawesome/free-solid-svg-icons";
-import Modal from "./modal";
 
-function Comment({ comment, data, currentUser, confirmation, setIsModalOpen }) {
+function Comment({
+	comment,
+	data,
+	currentUser,
+	setIsModalOpen,
+	setCommentId
+}) {
 	const increaseSign = useRef(null);
 	const decreaseSign = useRef(null);
 	const docRef = doc(db, "data", "users");
@@ -58,24 +63,6 @@ function Comment({ comment, data, currentUser, confirmation, setIsModalOpen }) {
 
 	const decreaseScore = () => {
 		changeScore(increaseSign.current.dataset.id, "decrease");
-	};
-
-	const removeHandler = (id) => {
-		data.comments.forEach((comment) => {
-			if (comment.id.toString() === id && confirmation) {
-				data.comments = data.comments.filter(
-					(comment) => comment.id !== id
-				);
-			}
-			comment.replies.forEach((reply) => {
-				if (reply.id === id && confirmation) {
-					comment.replies = comment.replies.filter(
-						(reply) => reply.id !== id
-					);
-				}
-			});
-			updateDoc(docRef, data);
-		});
 	};
 
 	const postReply = (id) => {
@@ -174,7 +161,7 @@ function Comment({ comment, data, currentUser, confirmation, setIsModalOpen }) {
 										data-id={comment.id}
 										onClick={() => {
 											setIsModalOpen(true);
-											removeHandler(comment.id);
+											setCommentId(comment.id);
 										}}>
 										<FontAwesomeIcon
 											icon={faTrash}

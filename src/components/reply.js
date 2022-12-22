@@ -2,12 +2,12 @@ import React from "react";
 import Comment from "./comment";
 import styled from "styled-components";
 
-function Reply({ reply, reference, data, currentUser }) {
+function Reply({ reply, reference, data, currentUser, removeHandler, setIsModalOpen, setCommentId }) {
 	return (
 		<StyledReply>
 			<div className="reply-section">
 				<div className="line"></div>
-				<Comment comment={reply} reference={reference} data={data} currentUser={currentUser}/>
+				<Comment comment={reply} reference={reference} data={data} currentUser={currentUser} removeHandler={removeHandler} setIsModalOpen={setIsModalOpen} setCommentId={setCommentId}/>
 			</div>
 		</StyledReply>
 	);
@@ -36,7 +36,7 @@ const StyledReply = styled.div`
 
 	@media only screen and (max-width: 750px) {
 		width: 100%;
-		
+
 		.reply-section {
 			justify-content: flex-end;
 			width: 100%;

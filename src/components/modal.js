@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function Modal({ setConfirmation, setIsModalOpen }) {
+function Modal({ setConfirmation, setIsModalOpen, commentId, removeHandler }) {
 	return (
 		<StyledModal>
 			<div className="modal">
@@ -21,7 +21,8 @@ function Modal({ setConfirmation, setIsModalOpen }) {
 					<button
 						className="confirm"
 						onClick={() => {
-							setConfirmation(true);
+							removeHandler(commentId);
+							setIsModalOpen(false);
 						}}>
 						YES, DELETE
 					</button>

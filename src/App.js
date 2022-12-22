@@ -12,8 +12,8 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
 	const [data, setData] = useState();
 	const [commentText, setCommentText] = useState("");
-	const [confirmation, setConfirmation] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [commentId, setCommentId] = useState();
 
 	const doFetch = async () => {
 		onSnapshot(doc(db, "data", "users"), (doc) => {
@@ -45,13 +45,31 @@ function App() {
 		updateDoc(docRef, data);
 	};
 
+	const removeHandler = (id) => {
+		data.comments.forEach((comment) => {
+			if (comment.id.toString() === id) {
+				data.comments = data.comments.filter(
+					(comment) => comment.id !== id
+				);
+			}
+			comment.replies.forEach((reply) => {
+				if (reply.id === id) {
+					comment.replies = comment.replies.filter(
+						(reply) => reply.id !== id
+					);
+				}
+			});
+			updateDoc(docRef, data);
+		});
+	};
+
 	return (
 		<StyledApp>
 			{isModalOpen && (
 				<Modal
-					conformation={confirmation}
-					setConfirmation={setConfirmation}
 					setIsModalOpen={setIsModalOpen}
+					removeHandler={removeHandler}
+					commentId={commentId}
 				/>
 			)}
 			{data === undefined ? (
@@ -66,8 +84,9 @@ function App() {
 								currentUser={currentUser}
 								commentText={commentText}
 								setCommentText={setCommentText}
-								conformation={confirmation}
 								setIsModalOpen={setIsModalOpen}
+								removeHandler={removeHandler}
+								setCommentId={setCommentId}
 								key={uuidv4()}
 							/>
 							{comment.replies.map((reply) => (
@@ -75,8 +94,9 @@ function App() {
 									reply={reply}
 									data={data}
 									currentUser={currentUser}
-									conformation={confirmation}
 									setIsModalOpen={setIsModalOpen}
+									removeHandler={removeHandler}
+									setCommentId={setCommentId}
 									key={uuidv4()}
 								/>
 							))}
