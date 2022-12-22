@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-function Modal({ setConfirmation, setIsModalOpen, commentId, removeHandler }) {
+function Modal({setIsModalOpen, commentId, removeHandler }) {
 	return (
 		<StyledModal>
 			<div className="modal">

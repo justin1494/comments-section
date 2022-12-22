@@ -82,10 +82,7 @@ function App() {
 								comment={comment}
 								data={data}
 								currentUser={currentUser}
-								commentText={commentText}
-								setCommentText={setCommentText}
 								setIsModalOpen={setIsModalOpen}
-								removeHandler={removeHandler}
 								setCommentId={setCommentId}
 								key={uuidv4()}
 							/>
